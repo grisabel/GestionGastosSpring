@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>GestiónGastos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>USUARIOS</h1>
+
+        <div th:if="${personas != null and !personas.empty}">
+            <table border="1">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Contraseña</th>
+
+                </tr>
+                <tr th:each="persona : ${personas}">
+                    <td th:text="${persona.name}">Mostrar Nombre</td>
+                    <td th:text="${persona.email}">Mostrar Email</td>
+                    <td th:text="${persona.password}">Mostrar contraseña</td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${personas == null or personas.empty}">
+            La lista de personas está vacía
+        </div>
+
+        <form method="POST" action="@{/logout}"> <!-- NECESARIO QUE SE LLAME 'logout' PARA QUE SPRING
+                                                 RECONOZCA QUE QUEREMOS SALIR DE LA APLICACIÓN -->
+            <a href="login" onclick="this.parentNode.submit();">Logout</a>
+        </form>
+
+
+    </body>
+</html>
