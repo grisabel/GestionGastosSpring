@@ -20,7 +20,7 @@ public class Person implements Serializable {
     
     @Id //Se debe indicar cuál es la clave primaria con esta anotación
     @GeneratedValue(strategy = GenerationType.IDENTITY)//Indicamos la forma de generar esta llave primaria
-    private Long id;
+    private Long id_person;
     
     @NotEmpty
     private String name;

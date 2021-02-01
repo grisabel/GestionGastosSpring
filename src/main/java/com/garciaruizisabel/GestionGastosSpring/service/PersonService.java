@@ -3,7 +3,6 @@ package com.garciaruizisabel.GestionGastosSpring.service;
 import com.garciaruizisabel.GestionGastosSpring.dao.PersonDao;
 import com.garciaruizisabel.GestionGastosSpring.domain.Person;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,7 @@ public class PersonService implements IPersonService{
     @Transactional(readOnly = true)
     public Person buscarPersona(Person person) {
         //Esto es que si no encuentra la persona, devuelva null
-        return  personDao.findById(person.getId()).orElse(null);
+        return  personDao.findById(person.getId_person()).orElse(null);
 
     }
     
