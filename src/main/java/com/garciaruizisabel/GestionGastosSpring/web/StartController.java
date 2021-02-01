@@ -1,6 +1,7 @@
 package com.garciaruizisabel.GestionGastosSpring.web;
 
-import com.garciaruizisabel.GestionGastosSpring.service.IPersonService;
+
+import com.garciaruizisabel.GestionGastosSpring.service.IDepositService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class StartController {
     
     @Autowired
-    private IPersonService iPersonService;
+    private IDepositService iDepositService;
     
     @GetMapping("/")
     public String inicio(Model model){
         
-        var personas = iPersonService.listar();
+        var deposits = iDepositService.listar();
         
-        model.addAttribute("personas",personas);
+        model.addAttribute("deposits",deposits);
         
         return "management";
     }

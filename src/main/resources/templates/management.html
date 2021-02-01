@@ -1,37 +1,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
       xmlns:th="http://www.thymeleaf.org">
-    <head>
+    <head th:replace="plantilla/plantilla :: head">
         <meta charset="UTF-8">
-
         <title>GestiónGastos</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>USUARIOS</h1>
-
-        <div th:if="${personas != null and !personas.empty}">
+        <header th:replace="plantilla/plantilla :: header"/>
+        <div th:if="${deposits != null and !deposits.empty}">
             <table border="1">
                 <tr>
-                    <th>Nombre</th>
-                    <th>Email</th>
-                    <th>Contraseña</th>
+                    <th>Concepto</th>
+                    <th>Ingreso</th>
+                    <th>Fecha</th>
+                    <th>Comentario</th>
 
                 </tr>
-                <tr th:each="persona : ${personas}">
-                    <td th:text="${persona.name}">Mostrar Nombre</td>
-                    <td th:text="${persona.email}">Mostrar Email</td>
-                    <td th:text="${persona.password}">Mostrar contraseña</td>
+                <tr th:each="deposit : ${deposits}">
+                    <td th:text="${deposit.capacity}">Mostrar Concepto</td>
+                    <td th:text="${deposit.deposit}">Mostrar Ingreso</td>
+                    <td th:text="${deposit.date}">Mostrar fecha</td>
+                    <td th:text="${deposit.comment}">Mostrar comentario</td>
                 </tr>
             </table>
         </div>
         <div th:if="${personas == null or personas.empty}">
-            La lista de personas está vacía
+            La lista de ingresos está vacía
         </div>
 
         <form method="POST" action="@{/logout}"> <!-- NECESARIO QUE SE LLAME 'logout' PARA QUE SPRING
                                                  RECONOZCA QUE QUEREMOS SALIR DE LA APLICACIÓN -->
             <a href="login" onclick="this.parentNode.submit();">Logout</a>
         </form>
+        <footer th:replace="plantilla/plantilla::footer"></footer>
 
 
     </body>
