@@ -20,10 +20,11 @@
                     <td th:text="${deposit.deposit}">Mostrar Ingreso</td>
                     <td th:text="${deposit.date}">Mostrar fecha</td>
                     <td th:text="${deposit.comment}">Mostrar comentario</td>
+                    <td sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/eliminar(id_deposit=${deposit.id_deposit})}"/>Eliminar</td> 
                 </tr>
             </table>
         </div>
-        <div th:if="${personas == null or personas.empty}">
+        <div th:if="${deposits == null or deposits.empty}">
             La lista de ingresos está vacía
         </div>
 

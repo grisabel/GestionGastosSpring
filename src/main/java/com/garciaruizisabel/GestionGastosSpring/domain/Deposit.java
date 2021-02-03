@@ -27,4 +27,7 @@ public class Deposit implements Serializable{
    
     @NotEmpty
     private String comment;
+    
+    @NotEmpty
+    private Long id_usuario;
 }

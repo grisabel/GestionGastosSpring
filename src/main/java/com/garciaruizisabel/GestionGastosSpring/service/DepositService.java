@@ -2,31 +2,26 @@
 package com.garciaruizisabel.GestionGastosSpring.service;
 
 import com.garciaruizisabel.GestionGastosSpring.dao.DepositDao;
+import com.garciaruizisabel.GestionGastosSpring.dao.UsuarioDao;
 import com.garciaruizisabel.GestionGastosSpring.domain.Deposit;
+import com.garciaruizisabel.GestionGastosSpring.domain.Usuario;
 import java.util.List;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 public class DepositService implements IDepositService{
 
     @Autowired
     private DepositDao depositDao;
-    
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<Deposit> listar() {
-        return (List<Deposit>) depositDao.findAll();
-    }
-/*
-    @Override
-    @Transactional(readOnly = true)
-    public List<Deposit> listar(Date año) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-*/
+  
+
     @Override
     @Transactional()
     public void guardar(Deposit deposit) {
