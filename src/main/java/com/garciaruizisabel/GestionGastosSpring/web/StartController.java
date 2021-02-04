@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.garciaruizisabel.GestionGastosSpring.domain.Deposit;
-import com.garciaruizisabel.GestionGastosSpring.domain.Usuario;
 import com.garciaruizisabel.GestionGastosSpring.service.IDepositService;
 
 
@@ -26,11 +25,13 @@ public class StartController {
     private UsuarioService usuarioService;
     
     @GetMapping("/")
-    public String inicio(Model model, Usuario usuario){
+    public String inicio(Model model){
    
        var deposits = usuarioService.listarIngresos();
-        
-        model.addAttribute("deposits",deposits);
+       model.addAttribute("deposits",deposits);
+       
+       var nombre = usuarioService.nombreUsuario();
+       model.addAttribute("nombre",nombre);
         
         return "management";
     }

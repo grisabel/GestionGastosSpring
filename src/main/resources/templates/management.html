@@ -2,38 +2,177 @@
       xmlns:th="http://www.thymeleaf.org">
     <head th:replace="plantilla/plantilla :: head">
         <meta charset="UTF-8">
-        <title>GestiónGastos</title>
+            <title>GestiónGastos</title>
     </head>
-    <body>
+    <body class=" d-flex flex-wrap flex-column">
         <header th:replace="plantilla/plantilla :: header"/>
-        <div th:if="${deposits != null and !deposits.empty}">
-            <table border="1">
-                <tr>
-                    <th>Concepto</th>
-                    <th>Ingreso</th>
-                    <th>Fecha</th>
-                    <th>Comentario</th>
 
-                </tr>
-                <tr th:each="deposit : ${deposits}">
-                    <td th:text="${deposit.capacity}">Mostrar Concepto</td>
-                    <td th:text="${deposit.deposit}">Mostrar Ingreso</td>
-                    <td th:text="${deposit.date}">Mostrar fecha</td>
-                    <td th:text="${deposit.comment}">Mostrar comentario</td>
-                    <td sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/eliminar(id_deposit=${deposit.id_deposit})}"/>Eliminar</td> 
-                </tr>
-            </table>
-        </div>
-        <div th:if="${deposits == null or deposits.empty}">
-            La lista de ingresos está vacía
-        </div>
+        <section class="d-flex flex-wrap flex-column">
 
-        <form method="POST" action="@{/logout}"> <!-- NECESARIO QUE SE LLAME 'logout' PARA QUE SPRING
-                                                 RECONOZCA QUE QUEREMOS SALIR DE LA APLICACIÓN -->
-            <a href="login" onclick="this.parentNode.submit();">Logout</a>
-        </form>
+            <div class="d-flex align-items-center bg-light ">
+                <button type="text" class="btn btn-primary btn-lg m-4 px-10 py-2 " data-bs-toggle="modal" data-bs-target="#agregarIngreso">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                    </svg>Ingreso
+                </button>
+                <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#agregarGasto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+                    </svg>Gasto
+                </button>
+
+            </div>
+
+            <div class='d-flex flex-wrap mx-5 my-2 justify-content-between  '>
+                <div class="row d-flex flex-wrap col-8 bg-primary">
+                    <div th:if="${deposits != null and !deposits.empty}" class="table-responsive ">
+                        <table  class="table caption-top text-center  ">
+                            <caption class="text-center fs-4 fw-bold">INGRESOS</caption>
+                            <thead class="table-light">
+                                <th>Concepto</th>
+                                <th>Ingreso(€)</th>
+                                <th>Fecha</th>
+                                <th>Comentario</th>
+                                <th></th>
+
+                            </thead>
+                            <tr th:each="deposit : ${deposits}">
+                                <td th:text="${deposit.capacity}">Mostrar Concepto</td>
+                                <td th:text="${deposit.deposit}">Mostrar Ingreso</td>
+                                <td th:text="${#calendars.format(deposit.date,'dd MMMM yyyy')}">Mostrar fecha</td> 
+                                <td th:text="${deposit.comment}">Mostrar comentario</td>
+                                <td sec:authorize="hasRole('ROLE_USER')"><a class="btn btn-outline-danger " th:href="@{/eliminar(id_deposit=${deposit.id_deposit})}"/>Eliminar</td> 
+                            </tr>
+                        </table>
+                    </div>
+                    <div th:if="${deposits == null or deposits.empty}" class='table-responsive  '>
+                        <caption table caption-top text-center>NO EXISTEN INGRESOS</caption>
+                        <table  class="table ">
+                            <thead class="table-light">
+                                <th>Concepto</th>
+                                <th>Ingreso</th>
+                                <th>Fecha</th>
+                                <th>Comentario</th>
+                                <th></th>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="bg-danger flex-grow-1">Aquí va el total de gastos, ingresos y diferencia
+                </div>
+            </div>
+
+
+
+        </section>
+
         <footer th:replace="plantilla/plantilla::footer"></footer>
 
 
     </body>
+    <!<!-- VENTANAS MODALES -->
+    <div class="modal fade" id="agregarIngreso" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Añadir ingreso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  class="d-flex flex-wrap flex-column needs-validation bd-green" novalidate>
+                        <div class="m-2">
+
+                            <select class="form-select"  required>
+                                <option selected disabled>Elige un concepto</option>
+                                <option  value="Nómina">Nómina</option>
+                                <option  value="Rentas y alquileres">Rentas y alquileres</option>
+                                <option  value="Ingresos extraordinarios">Ingresos extraordinarios</option>
+                                <option  value="Apuestas y juegos">Apuestas y juegos</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group m-2">
+
+                            <input type="number" class="form-control" required>
+                                <span class="input-group-text">€</span>
+                        </div>
+
+                        <div class="input-group date m-2" data-provide="datepicker">
+
+                            <input type="date" class="form-control" required>
+                        </div>
+
+                        <div class=" bd-highlight m-2 d-flex flex-column flex-fill">
+                            <input type="text" class="form-control " id="comentario" placeholder="Comentario">
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar ingreso</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="agregarGasto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" >Añadir gasto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form  class="d-flex flex-wrap flex-column needs-validation bd-green" novalidate>
+                        <div class="m-2">
+
+                            <select class="form-select"  required>
+                                <option selected disabled>Elige un concepto</option>
+                                <option  value="Hipoteca/Alquiler">Hipoteca/Alquiler</option>
+                                <option  value="Muebles/Menaje">Muebles/Menaje</option>
+                                <option  value="Alimentación">Alimentación</option>
+                                <option  value="Mascotas">Mascotas</option>
+                                <option  value="Compras/Ropa/Estética">Compras/Ropa/Estética</option>
+                                <option  value="Móvil/Internet/Fijo">Móvil/Internet/Fijo</option>
+                                <option  value="Luz/Gas">Luz/Gas</option>
+                                <option  value="Agua">Agua</option>
+                                <option  value="Carburantes">Carburantes</option>
+                                <option  value="Coche">Coche</option>
+                                <option  value="Seguros">Seguros</option>
+                                <option  value="Impuestos/Tasas/Multas">Impuestos/Tasas/Multas</option>
+                                <option  value="Matrículas/Cuotass">Matrículas/Cuotas</option>
+                                <option  value="Ocio">Ocio</option>
+                                <option  value="Gastos extraordinarios">Gastos extraordinarios</option>
+                                <option  value="Apuestas y juegos">Apuestas y juegos</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group m-2">
+
+                            <input type="number" class="form-control" required>
+                                <span class="input-group-text">€</span>
+                        </div>
+
+                        <div class="input-group date m-2" data-provide="datepicker">
+
+                            <input type="date" class="form-control" required>
+                        </div>
+
+                        <div class=" bd-highlight m-2 d-flex flex-column flex-fill">
+                            <input type="text" class="form-control " id="comentario" placeholder="Comentario">
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Guardar ingreso</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </html>

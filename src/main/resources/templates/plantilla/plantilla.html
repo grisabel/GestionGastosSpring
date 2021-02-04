@@ -1,23 +1,60 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
-    xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
     <head th:fragment="head">
         <title>Plantilla</title>
         <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
         <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
         <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     </head>
-    <body>
+    <body  class="d-flex flex-row bd-highlight mb-3 flex-wrap" >
         <header th:fragment="header">
-            <h1>Control de Gastos</h1>
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0" aria-label="Third navbar example">
+
+                <div class="container-fluid">
+                    <a th:href="@{/}" class="navbar-brand fs-4" >Gestión de gastos</a>
+                    <button class="navbar-toggler" data-bs-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                            <li class="nav-item px-2">
+                                <a th:href="@{/}" class="nav-link active" th:text="Mensual">Mensual</a>
+                            </li>
+                            <li class="nav-item px-2">
+                                <a th:href="@{/}" class="nav-link active" th:text="Anual">Anual</a>
+                            </li>
+                        </ul>
+                        <ul sec:authorize="isAuthenticated()" class="navbar-nav ml-auto p-0">
+                            <li class="nav-item mr-3">
+                                <a href="/" class="nav-link fs-5">
+                                    <i class="fas fa-user"></i>
+                                    <span th:text="Bienvenido">Bievenido:</span>
+                                    <span sec:authentication="name" th:text="${nombre}">Usuario</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <form method="POST" th:action="@{/logout}"> <!-- NECESARIO QUE SE LLAME 'logout' PARA QUE SPRING
+                                                 RECONOZCA QUE QUEREMOS SALIR DE LA APLICACIÓN -->
+                                    <a href="/login" onclick="this.parentNode.submit();" class="nav-link fs-5">
+                                        <i class="fas fa-user-times"></i> Cerrar sesión
+                                    </a>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
         </header>
         <footer th:fragment="footer">
             <div>
                 <p>grisabel97@outlook.com</p>
             </div>
-            
+
         </footer>
     </body>
 </html>

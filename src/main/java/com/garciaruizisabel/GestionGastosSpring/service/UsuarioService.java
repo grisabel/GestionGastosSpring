@@ -47,11 +47,18 @@ public class UsuarioService implements UserDetailsService{
         return new User(usuario.getUsername(),usuario.getPassword(), roles);
     }
 
-    @Transactional(readOnly = true)
+    
     public List<Deposit> listarIngresos() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = usuarioDao.findByUsername(auth.getName());
         
         return usuario.getDeposits();
+    }
+    
+    
+     public String nombreUsuario(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+   
+        return auth.getName();
     }
 }
