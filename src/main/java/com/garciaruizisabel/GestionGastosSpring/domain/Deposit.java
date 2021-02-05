@@ -3,6 +3,7 @@ package com.garciaruizisabel.GestionGastosSpring.domain;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -20,12 +21,12 @@ public class Deposit implements Serializable{
     private String capacity;
     
     @NotEmpty
+    @Min(value=0, message="El ingreso no puede tener valor negativo")
     private Float deposit;
     
     @NotEmpty
     private Date date;
    
-    @NotEmpty
     private String comment;
     
     @NotEmpty

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="plantilla/plantilla :: head">
+        <title>GastosAnuales</title>
+        <meta charset="UTF-8">
+        
+    </head>
+    <body>
+        <div class='d-flex flex-wrap mx-5 my-2 justify-content-between  '>
+                <div class="row d-flex flex-wrap col-8 ">
+                    <div th:if="${deposits != null and !deposits.empty}" class="table-responsive ">
+                        <table  class="table caption-top text-center  ">
+                            <caption class="text-center fs-4 fw-bold">INGRESOS</caption>
+                            <thead class="table-light">
+                                <th>Concepto</th>
+                                <th>Ingreso(€)</th>
+                                <th>Fecha</th>
+                                <th>Comentario</th>
+                                <th></th>
+
+                            </thead>
+                            <tr th:each="deposit : ${deposits}">
+                                <td th:text="${deposit.capacity}">Mostrar Concepto</td>
+                                <td th:text="${deposit.deposit}">Mostrar Ingreso</td>
+                                <td th:text="${#calendars.format(deposit.date,'dd MMMM yyyy')}">Mostrar fecha</td> 
+                                <td th:text="${deposit.comment}">Mostrar comentario</td>
+                                <td sec:authorize="hasRole('ROLE_USER')"><a class="btn btn-outline-danger " th:href="@{/eliminar(id_deposit=${deposit.id_deposit})}"/>Eliminar</td> 
+                            </tr>
+                        </table>
+                    </div>
+                    <div th:if="${deposits == null or deposits.empty}" class='table-responsive  '>
+                        <caption table caption-top text-center>NO EXISTEN INGRESOS</caption>
+                        <table  class="table ">
+                            <thead class="table-light">
+                                <th>Concepto</th>
+                                <th>Ingreso</th>
+                                <th>Fecha</th>
+                                <th>Comentario</th>
+                                <th></th>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+                
+            </div>
+    </body>
+</html>
